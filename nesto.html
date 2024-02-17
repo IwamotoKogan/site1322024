@@ -7,6 +7,7 @@
 </head>
 <body>
     <button onclick="signIn()">Prijavi se sa Gmail...</button>
+    <div id="user-info"></div>
     
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
@@ -21,6 +22,7 @@
                         GoogleAuth.signIn().then(function (response) {
                             var access_token = response.getAuthResponse().access_token;
                             console.log(access_token);
+                            displayUserInfo(response); // Prikazi informacije o korisniku
                             // Ovdje možeš poslati pristupni token na svoj server za dalju verifikaciju i obradu.
                         }, function (error) {
                             console.error(error);
@@ -33,13 +35,24 @@
                 GoogleAuth.signIn().then(function (response) {
                     var access_token = response.getAuthResponse().access_token;
                     console.log(access_token);
+                    displayUserInfo(response); // Prikazi informacije o korisniku
                     // Ovdje možeš poslati pristupni token na svoj server za dalju verifikaciju i obradu.
                 }, function (error) {
                     console.error(error);
                 });
             }
         }
+
+        // Funkcija za prikazivanje informacija o korisniku
+        function displayUserInfo(response) {
+            var profile = response.getBasicProfile();
+            var userInfoContainer = document.getElementById('user-info');
+            userInfoContainer.innerHTML = '<img src="' + profile.getImageUrl() + '">'; // Prikazi sliku korisnika
+            userInfoContainer.innerHTML += '<p>Ime: ' + profile.getGivenName() + '</p>'; // Prikazi ime korisnika
+            userInfoContainer.innerHTML += '<p>Prezime: ' + profile.getFamilyName() + '</p>'; // Prikazi prezime korisnika
+        }
     </script>
 </body>
 </html>
+
 
