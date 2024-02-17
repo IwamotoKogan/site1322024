@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login sa Gmailom</title>
+</head>
+<body>
+    <button onclick="signIn()">Prijavi se sa Gmailom</button>
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        function signIn() {
+            gapi.auth2.init({
+                client_id: '468596264299-8qv6hmoia62g89ev7g9b41vnjv3u4pkt.apps.googleusercontent.com'
+            }).then(function () {
+                var GoogleAuth = gapi.auth2.getAuthInstance();
+                GoogleAuth.signIn().then(function (response) {
+                    var access_token = response.getAuthResponse().access_token;
+                    console.log(access_token);
+                    // Ovdje možeš poslati pristupni token na svoj server za dalju verifikaciju i obradu.
+                }, function (error) {
+                    console.error(error);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
