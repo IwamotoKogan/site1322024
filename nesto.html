@@ -6,61 +6,32 @@
     <title>Login sa Gmailom</title>
 </head>
 <body>
-    <button onclick="signIn()">Prijavi se sa Gmail...</button>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload"
+         data-client_id="468596264299-8qv6hmoia62g89ev7g9b41vnjv3u4pkt.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+
     <div id="user-info"></div>
     
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
-        function signIn() {
-            // Proveri da li je gapi.auth2 već inicijalizovan
-            if (!gapi.auth2) {
-                gapi.load('auth2', function() {
-                    gapi.auth2.init({
-                        client_id: '468596264299-8qv6hmoia62g89ev7g9b41vnjv3u4pkt.apps.googleusercontent.com'
-                    }).then(function () {
-                        var GoogleAuth = gapi.auth2.getAuthInstance();
-                        GoogleAuth.signIn().then(function (response) {
-                            var access_token = response.getAuthResponse().access_token;
-                            console.log(access_token);
-                            displayUserInfo(response); // Prikazi informacije o korisniku
-                            // Ovdje možeš poslati pristupni token na svoj server za dalju verifikaciju i obradu.
-                        }, function (error) {
-                            console.error(error);
-                        });
-                    });
-                });
+        function handleCredentialResponse(response) {
+            // Ovde možete obraditi odgovor sa podacima o prijavljivanju korisnika
+            console.log(response);
+            var profile = response.profile;
+            var userInfoContainer = document.getElementById('user-info');
+
+            var imageUrl = profile.picture;
+            if (imageUrl) {
+                userInfoContainer.innerHTML = '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
             } else {
-                // Ako je već inicijalizovan, samo pozovi signIn()
-                var GoogleAuth = gapi.auth2.getAuthInstance();
-                GoogleAuth.signIn().then(function (response) {
-                    var access_token = response.getAuthResponse().access_token;
-                    console.log(access_token);
-                    displayUserInfo(response); // Prikazi informacije o korisniku
-                    // Ovdje možeš poslati pristupni token na svoj server za dalju verifikaciju i obradu.
-                }, function (error) {
-                    console.error(error);
-                });
+                userInfoContainer.innerHTML = '<p>Slika profila nije dostupna</p>';
             }
+
+            userInfoContainer.innerHTML += '<p>Ime: ' + profile.given_name + '</p>'; // Prikazi ime korisnika
+            userInfoContainer.innerHTML += '<p>Prezime: ' + profile.family_name + '</p>'; // Prikazi prezime korisnika
         }
-
-        // Funkcija za prikazivanje informacija o korisniku
-        function displayUserInfo(response) {
-    var profile = response.getBasicProfile();
-    var userInfoContainer = document.getElementById('user-info');
-
-    var imageUrl = profile.getImageUrl();
-    if (imageUrl) {
-        userInfoContainer.innerHTML = '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
-    } else {
-        userInfoContainer.innerHTML = '<p>Slika profila nije dostupna</p>';
-    }
-
-    userInfoContainer.innerHTML += '<p>Ime: ' + profile.getGivenName() + '</p>'; // Prikazi ime korisnika
-    userInfoContainer.innerHTML += '<p>Prezime: ' + profile.getFamilyName() + '</p>'; // Prikazi prezime korisnika
-}
-
     </script>
 </body>
 </html>
-
-
