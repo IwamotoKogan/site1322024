@@ -45,12 +45,20 @@
 
         // Funkcija za prikazivanje informacija o korisniku
         function displayUserInfo(response) {
-            var profile = response.getBasicProfile();
-            var userInfoContainer = document.getElementById('user-info');
-            userInfoContainer.innerHTML = '<img src="' + profile.getImageUrl() + '">'; // Prikazi sliku korisnika
-            userInfoContainer.innerHTML += '<p>Ime: ' + profile.getGivenName() + '</p>'; // Prikazi ime korisnika
-            userInfoContainer.innerHTML += '<p>Prezime: ' + profile.getFamilyName() + '</p>'; // Prikazi prezime korisnika
-        }
+    var profile = response.getBasicProfile();
+    var userInfoContainer = document.getElementById('user-info');
+
+    var imageUrl = profile.getImageUrl();
+    if (imageUrl) {
+        userInfoContainer.innerHTML = '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
+    } else {
+        userInfoContainer.innerHTML = '<p>Slika profila nije dostupna</p>';
+    }
+
+    userInfoContainer.innerHTML += '<p>Ime: ' + profile.getGivenName() + '</p>'; // Prikazi ime korisnika
+    userInfoContainer.innerHTML += '<p>Prezime: ' + profile.getFamilyName() + '</p>'; // Prikazi prezime korisnika
+}
+
     </script>
 </body>
 </html>
