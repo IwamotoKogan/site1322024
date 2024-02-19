@@ -6,7 +6,7 @@
     <title>Login sa Gmailom</title>
 </head>
 <body>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <div id="g_id_onload"
          data-client_id="468596264299-8qv6hmoia62g89ev7g9b41vnjv3u4pkt.apps.googleusercontent.com"
          data-callback="handleCredentialResponse">
@@ -15,32 +15,29 @@
 
     <div id="user-info"></div>
     
-    
-        <script>
-    function handleCredentialResponse(response) {
-        console.log(response);
-        var profile = response.profile;
-        var userInfoContainer = document.getElementById('user-info');
+    <script>
+        function handleCredentialResponse(response) {
+            console.log(response);
+            var profile = response.profile;
+            var userInfoContainer = document.getElementById('user-info');
 
-        if (profile) {
-            var imageUrl = profile.picture;
-            if (imageUrl) {
-                userInfoContainer.innerHTML = '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
+            if (profile) {
+                var imageUrl = profile.picture;
+                if (imageUrl) {
+                    userInfoContainer.innerHTML = '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
+                } else {
+                    userInfoContainer.innerHTML = '<p>Slika profila nije dostupna</p>';
+                }
+
+                var givenName = profile.given_name ? profile.given_name : 'N/A';
+                var familyName = profile.family_name ? profile.family_name : 'N/A';
+
+                userInfoContainer.innerHTML += '<p>Ime: ' + givenName + '</p>'; // Prikazi ime korisnika
+                userInfoContainer.innerHTML += '<p>Prezime: ' + familyName + '</p>'; // Prikazi prezime korisnika
             } else {
-                userInfoContainer.innerHTML = '<p>Slika profila nije dostupna</p>';
+                userInfoContainer.innerHTML = '<p>Podaci o korisniku nisu dostupni</p>';
             }
-
-            var givenName = profile.given_name ? profile.given_name : 'N/A';
-            var familyName = profile.family_name ? profile.family_name : 'N/A';
-
-            userInfoContainer.innerHTML += '<p>Ime: ' + givenName + '</p>'; // Prikazi ime korisnika
-            userInfoContainer.innerHTML += '<p>Prezime: ' + familyName + '</p>'; // Prikazi prezime korisnika
-        } else {
-            userInfoContainer.innerHTML = '<p>Podaci o korisniku nisu dostupni</p>';
         }
-    }
-</script>
-
-  
+    </script>
 </body>
 </html>
