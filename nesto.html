@@ -16,12 +16,13 @@
     <div id="user-info"></div>
     
     <script>
-        function handleCredentialResponse(response) {
-            // Ovde možete obraditi odgovor sa podacima o prijavljivanju korisnika
-            console.log(response);
-            var profile = response.profile;
-            var userInfoContainer = document.getElementById('user-info');
+        <script>
+    function handleCredentialResponse(response) {
+        console.log(response);
+        var profile = response.profile;
+        var userInfoContainer = document.getElementById('user-info');
 
+        if (profile) {
             var imageUrl = profile.picture;
             if (imageUrl) {
                 userInfoContainer.innerHTML = '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
@@ -29,9 +30,17 @@
                 userInfoContainer.innerHTML = '<p>Slika profila nije dostupna</p>';
             }
 
-            userInfoContainer.innerHTML += '<p>Ime: ' + profile.given_name + '</p>'; // Prikazi ime korisnika
-            userInfoContainer.innerHTML += '<p>Prezime: ' + profile.family_name + '</p>'; // Prikazi prezime korisnika
+            var givenName = profile.given_name ? profile.given_name : 'N/A';
+            var familyName = profile.family_name ? profile.family_name : 'N/A';
+
+            userInfoContainer.innerHTML += '<p>Ime: ' + givenName + '</p>'; // Prikazi ime korisnika
+            userInfoContainer.innerHTML += '<p>Prezime: ' + familyName + '</p>'; // Prikazi prezime korisnika
+        } else {
+            userInfoContainer.innerHTML = '<p>Podaci o korisniku nisu dostupni</p>';
         }
+    }
+</script>
+
     </script>
 </body>
 </html>
