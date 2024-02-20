@@ -1,66 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login sa Gmailom</title>
-</head>
-<body>
-   
-    
-    <script src="https://accounts.google.com/gsi/client" async></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer-when-downgrade">
 
-    <div id="g_id_onload"
-     data-client_id="468596264299-8qv6hmoia62g89ev7g9b41vnjv3u4pkt.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleCredentialResponse"
-     data-auto_prompt="false">
-</div>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    async function decodeResponse(credential) {
+      const url = new URL('http://127.0.0.1:3000/oauth');
+      url.searchParams.append('code',credential);
+      const localReq = await fetch(url);
+      const data = await localReq.json();
+      return data 
 
-<div class="g_id_signin"
-     data-type="icon"
-     data-shape="circle"
-     data-theme="filled_black"
-     data-text="signin_with"
-     data-size="large"
-     data-locale="sr-Latn">
-</div>
-    
-    <script>
-    function handleCredentialResponse(response) {
-        console.log(response);
-        var profile = response.profile;
-        var userInfoContainer = document.getElementById('user-info');
-
-        if (profile) {
-            // Očisti prethodne informacije
-            userInfoContainer.innerHTML = '';
-
-            var imageUrl = profile.picture;
-            if (imageUrl) {
-                userInfoContainer.innerHTML += '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
-            } else {
-                userInfoContainer.innerHTML += '<p>Slika profila nije dostupna</p>';
-            }
-
-            var givenName = profile.given_name ? profile.given_name : 'N/A';
-            var familyName = profile.family_name ? profile.family_name : 'N/A';
-
-            // Dodaj nove informacije o korisniku
-            userInfoContainer.innerHTML += '<p>Ime: ' + givenName + '</p>'; // Prikazi ime korisnika
-            userInfoContainer.innerHTML += '<p>Prezime: ' + familyName + '</p>'; // Prikazi prezime korisnika
-        } else {
-            // Ako nema profila, korisnik nije prijavljen
-            userInfoContainer.innerHTML = ''; // Očisti prethodne informacije
-            console.log('Korisnik nije prijavljen.');
-        }
+    }
+    async function handleCredentialResponse(response) {
+      const responsePayload = await decodeResponse(response.credential);
+      console.log('responsePayload', responsePayload);
+      //console.log('Response', response);
     }
 
-    // Dodaj event listener koji će ponovno pozvati handleCredentialResponse nakon promjene prijavljenog naloga
-    document.addEventListener('onCredentialRevoked', function() {
-        handleCredentialResponse({ profile: null });
-    });
-    </script>
+    async function getKeys(){
+      const keys = await fetch('http://127.0.0.1:3000/getkeys');
+      const data = await keys.json();
+      console.log('data',data);
+    }
+  </script>
+  
+  <title>Consulting Ninja HTMLAUTH</title>
+
+  <!-- Additional CSS and JavaScript files can be linked here -->
+  <style>
+    main{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    button{
+      margin-top:.25em;
+    }
+  </style>
+</head>
+<body>
+  <!-- Content of the web page goes here -->
+
+  <header>
+    <!-- Header content -->
+  </header>
+
+  <nav>
+    <!-- Navigation menu or links -->
+  </nav>
+
+  
+  <main>
+      <!-- Main content of the page -->
+    <h1>Welcome to Consulting Ninja!</h1>
+    <h3>Google GSI!?</h3>
+    <p>
+      Visit
+      <a href="https://www.youtube.com/@ConsultingNinja/featured">
+        <strong>@ConsultingNinja</strong>
+      </a>
+      to see more great videos!
+      <div id="g_id_onload"
+      data-client_id="889328097452-apc17iqi6rqghmvahr156kepoduhddro.apps.googleusercontent.com"
+      data-context="signin"
+      data-ux_mode="popup"
+      data-callback="handleCredentialResponse"
+      data-auto_prompt="false">
+ </div>
+ 
+ <div class="g_id_signin"
+      data-type="standard"
+      data-shape="rectangular"
+      data-theme="outline"
+      data-text="signin_with"
+      data-size="large"
+      data-logo_alignment="left">
+ </div>
+
+
+ <!-- <button type="button" onclick="getKeys()">My life sucks</button> -->
+    </p>
+
+  </main>
+
+  <footer>
+    <!-- Footer content -->
+  </footer>
+
+  <!-- Additional scripts can be placed here -->
 </body>
 </html>
+
