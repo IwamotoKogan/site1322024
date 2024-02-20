@@ -35,6 +35,10 @@
                 var givenName = profile.given_name ? profile.given_name : 'N/A';
                 var familyName = profile.family_name ? profile.family_name : 'N/A';
 
+                // Očisti prethodne informacije
+                userInfoContainer.innerHTML = '';
+
+                // Dodaj novu informaciju o korisniku
                 userInfoContainer.innerHTML += '<p>Ime: ' + givenName + '</p>'; // Prikazi ime korisnika
                 userInfoContainer.innerHTML += '<p>Prezime: ' + familyName + '</p>'; // Prikazi prezime korisnika
             } else {
