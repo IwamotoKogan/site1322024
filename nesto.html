@@ -9,7 +9,6 @@
    
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-
     <div id="g_id_onload"
          data-client_id="468596264299-8qv6hmoia62g89ev7g9b41vnjv3u4pkt.apps.googleusercontent.com"
          data-callback="handleCredentialResponse">
@@ -24,7 +23,6 @@
         var profile = response.profile;
         var userInfoContainer = document.getElementById('user-info');
 
-        // Očisti prethodne informacije samo ako su podaci o korisniku dostupni
         if (profile) {
             // Očisti prethodne informacije
             userInfoContainer.innerHTML = '';
@@ -43,12 +41,16 @@
             userInfoContainer.innerHTML += '<p>Ime: ' + givenName + '</p>'; // Prikazi ime korisnika
             userInfoContainer.innerHTML += '<p>Prezime: ' + familyName + '</p>'; // Prikazi prezime korisnika
         } else {
-            userInfoContainer.innerHTML = '<p>Podaci o korisniku nisu dostupni</p>';
-            console.log('promena');
+            // Ako nema profila, korisnik nije prijavljen
+            userInfoContainer.innerHTML = ''; // Očisti prethodne informacije
+            console.log('Korisnik nije prijavljen.');
         }
     }
 
-        /*promena2**/
+    // Dodaj event listener koji će ponovno pozvati handleCredentialResponse nakon promjene prijavljenog naloga
+    document.addEventListener('onCredentialRevoked', function() {
+        handleCredentialResponse({ profile: null });
+    });
     </script>
 </body>
 </html>
