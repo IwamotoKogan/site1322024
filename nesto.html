@@ -19,34 +19,36 @@
     <div id="user-info"></div>
     
     <script>
-        function handleCredentialResponse(response) {
-            console.log(response);
-            var profile = response.profile;
-            var userInfoContainer = document.getElementById('user-info');
+    function handleCredentialResponse(response) {
+        console.log(response);
+        var profile = response.profile;
+        var userInfoContainer = document.getElementById('user-info');
 
-            if (profile) {
-                var imageUrl = profile.picture;
-                if (imageUrl) {
-                    userInfoContainer.innerHTML = '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
-                } else {
-                    userInfoContainer.innerHTML = '<p>Slika profila nije dostupna</p>';
-                }
+        // Očisti prethodne informacije samo ako su podaci o korisniku dostupni
+        if (profile) {
+            // Očisti prethodne informacije
+            userInfoContainer.innerHTML = '';
 
-                var givenName = profile.given_name ? profile.given_name : 'N/A';
-                var familyName = profile.family_name ? profile.family_name : 'N/A';
-
-                // Očisti prethodne informacije
-                userInfoContainer.innerHTML = '';
-
-                // Dodaj novu informaciju o korisniku
-                userInfoContainer.innerHTML += '<p>Ime: ' + givenName + '</p>'; // Prikazi ime korisnika
-                userInfoContainer.innerHTML += '<p>Prezime: ' + familyName + '</p>'; // Prikazi prezime korisnika
+            var imageUrl = profile.picture;
+            if (imageUrl) {
+                userInfoContainer.innerHTML += '<img src="' + imageUrl + '">'; // Prikazi sliku korisnika
             } else {
-                userInfoContainer.innerHTML = '<p>Podaci o korisniku nisu dostupni</p>';
-                console.log("ne radi");
+                userInfoContainer.innerHTML += '<p>Slika profila nije dostupna</p>';
             }
+
+            var givenName = profile.given_name ? profile.given_name : 'N/A';
+            var familyName = profile.family_name ? profile.family_name : 'N/A';
+
+            // Dodaj nove informacije o korisniku
+            userInfoContainer.innerHTML += '<p>Ime: ' + givenName + '</p>'; // Prikazi ime korisnika
+            userInfoContainer.innerHTML += '<p>Prezime: ' + familyName + '</p>'; // Prikazi prezime korisnika
+        } else {
+            userInfoContainer.innerHTML = '<p>Podaci o korisniku nisu dostupni</p>';
+            console.log('promena');
         }
-        /*promena**/
+    }
+
+        /*promena2**/
     </script>
 </body>
 </html>
