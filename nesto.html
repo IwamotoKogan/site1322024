@@ -8,7 +8,7 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
     async function decodeResponse(credential) {
-      const url = new URL('http://127.0.0.1:3000/oauth');
+      const url = new URL('https://iwamotokogan.github.io/site1322024/nesto.html');
       url.searchParams.append('code',credential);
       const localReq = await fetch(url);
       const data = await localReq.json();
